@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+
+    <header>
+
+        <h1 th:inline="text">Hello</h1>
+
+        <div sec:authorize="isAuthenticated()">
+            <p>You are logged in as: <span th:remove="tag" sec:authentication="name"></span></p>
+
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Log Out</button>
+            </form>
+        </div>
+
+    </header>
+
+    <main>
+
+        <div sec:authorize="isAnonymous()">
+            <p>Click <a th:href="@{/login}">here</a> to log in</p>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <p>Click <a th:href="@{/items}">here</a> to see items</p>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

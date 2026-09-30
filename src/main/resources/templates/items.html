@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+</head>
+
+<body>
+
+    <main>
+
+        <div th:if="${items.isEmpty()}">
+            <h1>No items</h1>
+        </div>
+
+        <div th:if="${!items.isEmpty()}">
+
+            <h1>Items</h1>
+
+            <div th:each="item : ${items}">
+
+                <div>
+                    <h2 th:text="${'#%d. %s'.formatted(item.id, item.name)}"></h2>
+                    <p th:text="${item.description}"></p>
+                    <p>Price: <span th:text="${item.price}"></span></p>
+                </div>
+
+                <div sec:authorize="hasRole('ADMIN')">
+                    <form th:action="@{/items/{id}(id=${item.id})}" method="post">
+                        <!-- Spring's hidden method support -->
+                        <input name="_method" type="hidden" value="delete">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
